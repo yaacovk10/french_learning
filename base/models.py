@@ -16,3 +16,17 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "Lesson"
         verbose_name_plural = "Lessons"
+
+class Word(models.Model):
+    id = models.AutoField(primary_key=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='words')
+    word_english = models.CharField(max_length=50, verbose_name="English Word")
+    word_hebrew = models.CharField(max_length=50, verbose_name="מילה בעברית")
+    word_french = models.CharField(max_length=50, verbose_name="French Word")
+
+    def __str__(self):
+        return self.word_english
+
+    class Meta:
+        verbose_name = "Word"
+        verbose_name_plural = "Words"

@@ -17,7 +17,7 @@ Including another URLconf
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.urls import path
 from . import views
-from .views import Lesson_view
+from .views import Lesson_view, WordView
 
 # urls.py
 
@@ -28,4 +28,6 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('lessons/', Lesson_view.as_view(), name='lesson_list_create'),
     path('lessons/<int:pk>/', Lesson_view.as_view(), name='lesson_detail'),
+    path('words/', WordView.as_view(), name='word_list_create'),
+    path('words/<int:pk>/', WordView.as_view(), name='word_detail'),
 ]
