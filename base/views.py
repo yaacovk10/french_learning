@@ -37,10 +37,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class Lesson_view(APIView):
-    def get(self, request):
-        my_model = Lesson.objects.all()
-        serializer = LessonSerializer(my_model, many=True)
-        return Response(serializer.data)
+        
+    def get(self, request, pk=None):
+        if pk is not None:
+            lesson = Lesson.objects.get(pk=pk)
+            serializer = LessonSerializer(lesson)
+            return Response(serializer.data)
+        else:
+            lessons = Lesson.objects.all()
+            serializer = LessonSerializer(lessons, many=True)
+            return Response(serializer.data)
     
     def post(self, request):
         # usr =request.user
