@@ -7,4 +7,5 @@
 * Install RestApi framework `pip install djangorestframework`
 * Add Cors `python -m pip install django-cors-headers`
 * Add authentication 
+* test
 
