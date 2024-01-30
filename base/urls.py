@@ -18,6 +18,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.urls import path
 from . import views
 from .views import Lesson_view, WordView
+from .views import update_password
+
 
 # urls.py
 
@@ -26,8 +28,11 @@ from .views import Lesson_view, WordView
 urlpatterns = [
     path('',views.index),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('update_password/', update_password, name='update_password'),
     path('lessons/', Lesson_view.as_view(), name='lesson_list_create'),
     path('lessons/<int:pk>/', Lesson_view.as_view(), name='lesson_detail'),
     path('words/', WordView.as_view(), name='word_list_create'),
     path('words/<int:pk>/', WordView.as_view(), name='word_detail'),
+    # The query parameter (lesson_id) is passed in the URL as follows:
+    # /words/?lesson_id=<lesson_id>
 ]
