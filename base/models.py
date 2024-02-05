@@ -20,6 +20,7 @@ class Lesson(models.Model):
 class Word(models.Model):
     id = models.AutoField(primary_key=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='words')
+    word_key = models.CharField(max_length=50, verbose_name="word to search")
     word_english = models.CharField(max_length=50, verbose_name="English Word")
     word_hebrew = models.CharField(max_length=50, verbose_name="מילה בעברית")
     word_french = models.CharField(max_length=50, verbose_name="French Word")

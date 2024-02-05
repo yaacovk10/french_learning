@@ -21,9 +21,6 @@ from .views import Lesson_view, WordView
 from .views import update_password
 
 
-# urls.py
-
-
 
 urlpatterns = [
     path('',views.index),
