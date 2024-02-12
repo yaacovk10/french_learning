@@ -11,22 +11,23 @@ from .models import Lesson
 from rest_framework import status
 from .models import Word
 from .serializers import WordSerializer
-
-
-
-
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
+
+# Update user password
 @api_view(['PUT'])
 def update_password(request):
+     # Extract username and new password from request data
     username = request.data.get('username')
     new_password = request.data.get('new_password')
 
+     # Validate presence of required data
     if not username or not new_password:
         return Response({"error": "Username and new password are required."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        # Fetch user and update password
         user = User.objects.get(username=username)
         user.password = make_password(new_password)
         user.save()
@@ -36,12 +37,7 @@ def update_password(request):
 
 
 
-
-@api_view(['GET'])
-def index(req):
-    return Response("test")
-
-
+# Custom TokenObtainPairSerializer to add additional claims to the JWT
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -56,9 +52,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
-
+# API View for Lessons
 class Lesson_view(APIView):
-
+    # Retrieve a single lesson by pk or all lessons if pk is None
     def get(self, request, pk=None):
         if pk is not None:
             lesson = Lesson.objects.get(pk=pk)
@@ -69,15 +65,15 @@ class Lesson_view(APIView):
             serializer = LessonSerializer(lessons, many=True)
             return Response(serializer.data)
     
+    # Create a new lesson
     def post(self, request):
-        # usr =request.user
-        # print(usr)
         serializer = LessonSerializer(data=request.data, context={'user': request.user})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
+   # Update an existing lesson
     def put(self, request, pk):
         my_model = Lesson.objects.get(pk=pk)
         serializer = LessonSerializer(my_model, data=request.data)
@@ -86,14 +82,17 @@ class Lesson_view(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
+   # Delete a lesson
     def delete(self, request, pk):
         my_model = Lesson.objects.get(pk=pk)
         my_model.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
-
+# API View for Words
 class WordView(APIView):
+
+    # Retrieve words, optionally filtered by a lesson ID
     def get(self, request, pk=None):
         # Check if a lesson ID is provided in the query parameters
         lesson_id = request.query_params.get('lesson_id', None)
@@ -114,7 +113,7 @@ class WordView(APIView):
             serializer = WordSerializer(words, many=True)
             return Response(serializer.data)
 
-
+    # Create a new word
     def post(self, request):
         serializer = WordSerializer(data=request.data)
         if serializer.is_valid():
@@ -122,6 +121,7 @@ class WordView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # Update an existing word
     def put(self, request, pk):
         word = Word.objects.get(pk=pk)
         serializer = WordSerializer(word, data=request.data)
@@ -130,6 +130,7 @@ class WordView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # Delete a word
     def delete(self, request, pk):
         word = Word.objects.get(pk=pk)
         word.delete()

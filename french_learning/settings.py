@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Defines the base directory of the project. Used to construct paths to other directories within the project.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-$y1_5jch9-+y#(vpgg6w-1cx929rd)@)ui2$0%+j^#mwqeqhx)'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Debug mode should be turned off in production to prevent leaking sensitive information.
+#TODO  SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -30,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+# Lists Django and third-party apps used by the project.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,14 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'corsheaders',
-    'base'
+    'rest_framework',   # Django Rest Framework for building APIs.
+    'corsheaders', # Handling Cross-Origin Resource Sharing (CORS).
+    'base' # Custom app for the core functionality of the project.
 ]
 
+# Middleware is a framework of hooks into Django's request/response processing.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # Handles CORS headers for cross-origin requests.
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -53,10 +56,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Allows all origins to access the API. 
+# TODO Should be restricted in production for security.
 CORS_ALLOW_ALL_ORIGINS = True
 
+# URL configuration module for the project.
 ROOT_URLCONF = 'french_learning.urls'
 
+# Templates configuration.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -73,12 +80,14 @@ TEMPLATES = [
     },
 ]
 
+# WSGI application path for Django's WSGI support.
 WSGI_APPLICATION = 'french_learning.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Configuration for the project's database. Uses SQLite by default.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -90,10 +99,13 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
+# Configures validators for user passwords.
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
+
+    #TODO to uncomment for production
     # {
     #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     # },
