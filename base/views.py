@@ -42,14 +42,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-
-
+        
         # Add custom claims
         token['username'] = user.username
-        token['password'] = user.password
-        # ...
-
-
+        # token['password'] = user.password
         return token
 
 # API View for Lessons
